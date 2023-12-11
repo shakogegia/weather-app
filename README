@@ -1,0 +1,13 @@
+# Weather App
+
+First, install the dependencies:
+
+```bash
+yarn install
+```
+
+Then, run the app:
+
+```bash
+yarn ios
+```
