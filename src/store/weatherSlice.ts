@@ -87,22 +87,22 @@ export const weatherSlice = createSlice({
       state.cities = action.payload
       state.isLoading = false
     })
-    builder.addCase(fetchForecast.pending, (state, action) => {
+    builder.addCase(fetchForecast.pending, state => {
       state.isLoading = true
     })
-    builder.addCase(fetchForecast.rejected, (state, action) => {
+    builder.addCase(fetchForecast.rejected, state => {
       state.isLoading = false
     })
 
     builder.addCase(fetchCityForecast.fulfilled, (state, action) => {
       state.weatherData = action.payload
     })
-    builder.addCase(fetchCityForecast.pending, (state, action) => {
+    builder.addCase(fetchCityForecast.pending, state => {
       state.weatherData = {
         isLoading: true,
       }
     })
-    builder.addCase(fetchCityForecast.rejected, (state, action) => {
+    builder.addCase(fetchCityForecast.rejected, state => {
       state.weatherData = {
         isLoading: false,
       }

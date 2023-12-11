@@ -40,6 +40,7 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Home'>)
         data={cities}
         keyExtractor={city => city.id}
         style={{ padding: 16 }}
+        ListHeaderComponent={Header}
         ItemSeparatorComponent={Divider}
         refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refresh} />}
         renderItem={({ item: city }) => (
@@ -63,6 +64,12 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Home'>)
 
 const Divider = () => <View style={styles.divider} />
 
+const Header = () => (
+  <View style={styles.headerContainer}>
+    <Text style={styles.header}>Weather Forecast</Text>
+  </View>
+)
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -70,6 +77,15 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 16,
+  },
+  headerContainer: {
+    justifyContent: 'center',
+    marginBottom: 30,
+  },
+  header: {
+    fontWeight: 'bold',
+    fontSize: 32,
+    textAlign: 'center',
   },
   row: {
     flexDirection: 'row',
