@@ -18,4 +18,18 @@ export const api = {
       weatherDescription: item.weather[0].description,
     }))
   },
+  fetchWeeklyForecast: async (lat: number, lon: number) => {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=40&units=metric&appid=${process.env.EXPO_PUBLIC_API_KEY}`,
+    )
+    const data = await response.json()
+
+    return data.list.map((item: any) => ({
+      dt: item.dt,
+      degree: Math.round(item.main.temp),
+      icon: item.weather[0].icon,
+      weather: item.weather[0].main,
+      weatherDescription: item.weather[0].description,
+    }))
+  },
 }

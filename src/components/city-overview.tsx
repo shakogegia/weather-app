@@ -6,7 +6,7 @@ import WeatherIcon from './weather-icon'
 export default function CityOverview({ city }: { city: City }) {
   return (
     <View style={styles.container}>
-      <Text>{city.weather}</Text>
+      <Text>Mood: {city.weather}</Text>
 
       <View style={styles.row}>
         {city.icon && <WeatherIcon icon={city.icon} size={120} />}
@@ -21,7 +21,6 @@ export default function CityOverview({ city }: { city: City }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     marginVertical: 16,
   },
