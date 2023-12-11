@@ -39,6 +39,8 @@ const initialState: WeatherState = {
   cities: [
     { id: '2759794', name: 'Amsterdam' },
     { id: '2988507', name: 'Paris' },
+    { id: '4219762', name: 'Rome' },
+    { id: '3128760', name: 'Barcelona' },
   ],
   isLoading: false,
 }

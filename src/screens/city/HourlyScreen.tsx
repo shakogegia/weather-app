@@ -56,7 +56,7 @@ export default function HourlyScreen(props: CityTabScreenProps<'Hourly'>) {
               data={chartData}
               width={Dimensions.get('window').width - 32}
               withDots
-              height={220}
+              height={240}
               fromZero
               yAxisSuffix="°"
               yAxisInterval={1}
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   chartStyles: {
     borderRadius: 16,
-    paddingRight: 40,
+    paddingRight: 45,
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 3,
