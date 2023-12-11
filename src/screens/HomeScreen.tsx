@@ -5,7 +5,7 @@ import Card from '../components/card'
 import WeatherIcon from '../components/weather-icon'
 import { RootStackScreenProps } from '../navigation/types'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { City, fetchForecast, selectCities, selectIsLoading } from '../store/weatherSlice'
+import { City, fetchForecast, selectCities, selectIsLoading, setCurrentCity } from '../store/weatherSlice'
 
 export default function HomeScreen({ navigation }: RootStackScreenProps<'Home'>) {
   const insets = useSafeAreaInsets()
@@ -21,6 +21,7 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Home'>)
 
   function navigateToCity(city: City) {
     return () => {
+      dispatch(setCurrentCity(city))
       navigation.navigate('City', city)
     }
   }

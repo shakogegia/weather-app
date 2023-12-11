@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { api } from './api'
 import type { RootState } from './store'
 
@@ -15,6 +15,7 @@ export type City = {
 
 interface CitiesState {
   cities: City[]
+  currentCity?: City
   isLoading: boolean
 }
 
@@ -35,7 +36,11 @@ export const fetchForecast = createAsyncThunk('weather/cities/fetch', (_, thunkA
 export const weatherSlice = createSlice({
   name: 'weather',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentCity: (state, action: PayloadAction<City>) => {
+      state.currentCity = action.payload
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchForecast.fulfilled, (state, action) => {
       state.cities = action.payload
@@ -50,7 +55,12 @@ export const weatherSlice = createSlice({
   },
 })
 
+// Actions
+export const { setCurrentCity } = weatherSlice.actions
+
+// Selectors
 export const selectCities = (state: RootState) => state.weather.cities
 export const selectIsLoading = (state: RootState) => state.weather.isLoading
+export const selectCurrentCity = (state: RootState) => state.weather.currentCity
 
 export default weatherSlice
