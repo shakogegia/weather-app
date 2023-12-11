@@ -60,13 +60,15 @@ export const fetchCityForecast = createAsyncThunk(
         weather: item.weather[0].main,
         weatherDescription: item.weather[0].description,
       })),
-      hourly: data.hourly.map((item: any) => ({
-        dt: item.dt,
-        degree: Math.round(item.temp),
-        icon: item.weather[0].icon,
-        weather: item.weather[0].main,
-        weatherDescription: item.weather[0].description,
-      })),
+      hourly: data.hourly
+        .map((item: any) => ({
+          dt: item.dt,
+          degree: Math.round(item.temp),
+          icon: item.weather[0].icon,
+          weather: item.weather[0].main,
+          weatherDescription: item.weather[0].description,
+        }))
+        .slice(0, 8),
     }
   },
 )
@@ -116,7 +118,7 @@ export const selectCities = (state: RootState) => state.weather.cities
 export const selectIsLoading = (state: RootState) => state.weather.isLoading
 
 export const selectCurrentCity = (state: RootState) => state.weather.currentCity
-export const selectDailyForecast = (state: RootState) => state.weather.weatherData?.daily ?? []
-export const selectHourlyForecast = (state: RootState) => state.weather.weatherData?.hourly ?? []
+export const selectDailyForecast = (state: RootState) => state.weather.weatherData?.daily
+export const selectHourlyForecast = (state: RootState) => state.weather.weatherData?.hourly
 
 export default weatherSlice
