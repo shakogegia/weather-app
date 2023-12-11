@@ -21,7 +21,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 
 export type CityTabParamList = {
   Hourly: undefined
-  Weekly: undefined
+  Daily: undefined
 }
 
 export type CityTabScreenProps<Screen extends keyof CityTabParamList> = CompositeScreenProps<

@@ -6,11 +6,11 @@ import CityOverview from '../../components/city-overview'
 import WeatherIcon from '../../components/weather-icon'
 import { CityTabScreenProps } from '../../navigation/types'
 import { useAppSelector } from '../../store/hooks'
-import { selectCurrentCity, selectWeeklyForecast } from '../../store/weatherSlice'
+import { selectCurrentCity, selectDailyForecast } from '../../store/weatherSlice'
 
-export default function WeeklyScreen(props: CityTabScreenProps<'Weekly'>) {
+export default function DailyScreen(props: CityTabScreenProps<'Daily'>) {
   const currentCity = useAppSelector(selectCurrentCity)
-  const data = useAppSelector(selectWeeklyForecast)
+  const data = useAppSelector(selectDailyForecast)
   return (
     <View style={styles.container}>
       <CityOverview city={currentCity!} />
@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   divider: {
-    height: 1 / 2,
-    backgroundColor: '#e3e3e3',
+    height: 1,
+    backgroundColor: '#f4f2f2',
     marginVertical: 8,
   },
   row: {

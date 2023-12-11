@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
 import HomeScreen from '../screens/HomeScreen'
 import HourlyScreen from '../screens/city/HourlyScreen'
-import WeeklyScreen from '../screens/city/WeeklyScreen'
+import DailyScreen from '../screens/city/DailyScreen'
 import { CityTabParamList, RootStackParamList } from './types'
 import { Platform } from 'react-native'
 
@@ -28,8 +28,8 @@ function CityTabs() {
         }}
       />
       <BottomTab.Screen
-        name="Weekly"
-        component={WeeklyScreen}
+        name="Daily"
+        component={DailyScreen}
         options={{
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color} />

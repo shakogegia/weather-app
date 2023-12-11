@@ -1,7 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { api } from './api'
 import type { RootState } from './store'
-import dayjs from 'dayjs'
 
 export type City = {
   id: string
@@ -27,7 +26,7 @@ interface WeatherState {
   currentCity?: City
   weatherData?: {
     isLoading: boolean
-    weekly?: Forecast[]
+    daily?: Forecast[]
   } | null
   isLoading: boolean
 }
@@ -49,17 +48,17 @@ export const fetchForecast = createAsyncThunk('weather/cities/fetch', (_, thunkA
 export const fetchCityForecast = createAsyncThunk(
   'weather/city/fetch',
   async (city: City): Promise<WeatherState['weatherData']> => {
-    const data = await api.fetchWeeklyForecast(city.lat!, city.lon!)
+    const data = await api.fetchCityForecast(city.lat!, city.lon!)
 
     return {
       isLoading: false,
-      weekly: data.filter(
-        (item: any, index: number) =>
-          index ===
-          data.findIndex(
-            (t: any) => dayjs.unix(t.dt).format('DD-MM-YYYY') === dayjs.unix(item.dt).format('DD-MM-YYYY'),
-          ),
-      ),
+      daily: data.daily.map((item: any) => ({
+        dt: item.dt,
+        degree: Math.round(item.temp.day),
+        icon: item.weather[0].icon,
+        weather: item.weather[0].main,
+        weatherDescription: item.weather[0].description,
+      })),
     }
   },
 )
@@ -109,6 +108,6 @@ export const selectCities = (state: RootState) => state.weather.cities
 export const selectIsLoading = (state: RootState) => state.weather.isLoading
 
 export const selectCurrentCity = (state: RootState) => state.weather.currentCity
-export const selectWeeklyForecast = (state: RootState) => state.weather.weatherData?.weekly ?? []
+export const selectDailyForecast = (state: RootState) => state.weather.weatherData?.daily ?? []
 
 export default weatherSlice
