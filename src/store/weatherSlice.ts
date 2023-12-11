@@ -27,6 +27,7 @@ interface WeatherState {
   weatherData?: {
     isLoading: boolean
     daily?: Forecast[]
+    hourly?: Forecast[]
   } | null
   isLoading: boolean
 }
@@ -55,6 +56,13 @@ export const fetchCityForecast = createAsyncThunk(
       daily: data.daily.map((item: any) => ({
         dt: item.dt,
         degree: Math.round(item.temp.day),
+        icon: item.weather[0].icon,
+        weather: item.weather[0].main,
+        weatherDescription: item.weather[0].description,
+      })),
+      hourly: data.hourly.map((item: any) => ({
+        dt: item.dt,
+        degree: Math.round(item.temp),
         icon: item.weather[0].icon,
         weather: item.weather[0].main,
         weatherDescription: item.weather[0].description,
@@ -109,5 +117,6 @@ export const selectIsLoading = (state: RootState) => state.weather.isLoading
 
 export const selectCurrentCity = (state: RootState) => state.weather.currentCity
 export const selectDailyForecast = (state: RootState) => state.weather.weatherData?.daily ?? []
+export const selectHourlyForecast = (state: RootState) => state.weather.weatherData?.hourly ?? []
 
 export default weatherSlice
