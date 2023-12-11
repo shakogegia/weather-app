@@ -6,6 +6,12 @@ First, install the dependencies:
 yarn install
 ```
 
+Create `.env.local` file and add your OpenWeatherMap API key:
+
+```bash
+EXPO_PUBLIC_API_KEY=your-api-key
+```
+
 Then, run the app:
 
 ```bash
