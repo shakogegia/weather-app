@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e3c8ea06-d2fe-462b-b221-8957d7a0fc82"
+      }
+    },
+    "owner": "shakogegia"
   }
 }
