@@ -6,12 +6,13 @@ import CityOverview from '../../components/city-overview'
 import WeatherIcon from '../../components/weather-icon'
 import { CityTabScreenProps } from '../../navigation/types'
 import { useAppSelector } from '../../store/hooks'
-import { selectCurrentCity, selectHourlyForecast } from '../../store/weatherSlice'
+import { selectCityMood, selectCurrentCity, selectHourlyForecast } from '../../store/weatherSlice'
 import { LineChart } from 'react-native-chart-kit'
 import { chartConfig } from '../../utils/constants'
 
 export default function HourlyScreen(props: CityTabScreenProps<'Hourly'>) {
   const currentCity = useAppSelector(selectCurrentCity)
+  const mood = useAppSelector(selectCityMood)
   const data = useAppSelector(selectHourlyForecast)
 
   const chartData = React.useMemo(
@@ -29,7 +30,7 @@ export default function HourlyScreen(props: CityTabScreenProps<'Hourly'>) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <CityOverview city={currentCity!} />
+        <CityOverview city={currentCity!} mood={mood} />
 
         <Card>
           <ScrollView

@@ -6,14 +6,15 @@ import CityOverview from '../../components/city-overview'
 import WeatherIcon from '../../components/weather-icon'
 import { CityTabScreenProps } from '../../navigation/types'
 import { useAppSelector } from '../../store/hooks'
-import { selectCurrentCity, selectDailyForecast } from '../../store/weatherSlice'
+import { selectCityMood, selectCurrentCity, selectDailyForecast } from '../../store/weatherSlice'
 
 export default function DailyScreen(props: CityTabScreenProps<'Daily'>) {
   const currentCity = useAppSelector(selectCurrentCity)
+  const mood = useAppSelector(selectCityMood)
   const data = useAppSelector(selectDailyForecast)
   return (
     <View style={styles.container}>
-      <CityOverview city={currentCity!} />
+      <CityOverview city={currentCity!} mood={mood} />
 
       <Card>
         <FlatList
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   day: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '300',
   },
   weather: {

@@ -1,6 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { api } from './api'
 import type { RootState } from './store'
+import { weekMoods } from '../utils/constants'
+import { getWeatherMood } from '../utils/helpers'
 
 export type City = {
   id: string
@@ -24,8 +26,9 @@ type Forecast = {
 interface WeatherState {
   cities: City[]
   currentCity?: City
-  weatherData?: {
+  cityData?: {
     isLoading: boolean
+    mood?: string
     daily?: Forecast[]
     hourly?: Forecast[]
   } | null
@@ -48,18 +51,23 @@ export const fetchForecast = createAsyncThunk('weather/cities/fetch', (_, thunkA
 
 export const fetchCityForecast = createAsyncThunk(
   'weather/city/fetch',
-  async (city: City): Promise<WeatherState['weatherData']> => {
+  async (city: City): Promise<WeatherState['cityData']> => {
     const data = await api.fetchCityForecast(city.lat!, city.lon!)
+
+    const daily = data.daily.map((item: any) => ({
+      dt: item.dt,
+      degree: Math.round(item.temp.day),
+      icon: item.weather[0].icon,
+      weather: item.weather[0].main,
+      weatherDescription: item.weather[0].description,
+    }))
+
+    const avarageWeekTemp = daily.reduce((acc: number, item: Forecast) => acc + item.degree, 0) / daily.length
 
     return {
       isLoading: false,
-      daily: data.daily.map((item: any) => ({
-        dt: item.dt,
-        degree: Math.round(item.temp.day),
-        icon: item.weather[0].icon,
-        weather: item.weather[0].main,
-        weatherDescription: item.weather[0].description,
-      })),
+      mood: getWeatherMood(avarageWeekTemp),
+      daily,
       hourly: data.hourly
         .map((item: any) => ({
           dt: item.dt,
@@ -79,7 +87,7 @@ export const weatherSlice = createSlice({
   reducers: {
     setCurrentCity: (state, action: PayloadAction<City>) => {
       state.currentCity = action.payload
-      state.weatherData = null
+      state.cityData = null
     },
   },
   extraReducers: builder => {
@@ -95,15 +103,15 @@ export const weatherSlice = createSlice({
     })
 
     builder.addCase(fetchCityForecast.fulfilled, (state, action) => {
-      state.weatherData = action.payload
+      state.cityData = action.payload
     })
     builder.addCase(fetchCityForecast.pending, state => {
-      state.weatherData = {
+      state.cityData = {
         isLoading: true,
       }
     })
     builder.addCase(fetchCityForecast.rejected, state => {
-      state.weatherData = {
+      state.cityData = {
         isLoading: false,
       }
     })
@@ -118,7 +126,8 @@ export const selectCities = (state: RootState) => state.weather.cities
 export const selectIsLoading = (state: RootState) => state.weather.isLoading
 
 export const selectCurrentCity = (state: RootState) => state.weather.currentCity
-export const selectDailyForecast = (state: RootState) => state.weather.weatherData?.daily
-export const selectHourlyForecast = (state: RootState) => state.weather.weatherData?.hourly
+export const selectCityMood = (state: RootState) => state.weather.cityData?.mood
+export const selectDailyForecast = (state: RootState) => state.weather.cityData?.daily
+export const selectHourlyForecast = (state: RootState) => state.weather.cityData?.hourly
 
 export default weatherSlice
